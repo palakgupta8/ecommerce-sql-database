@@ -110,87 +110,206 @@ values
 (409, 307, 202, 1, 20000.00),
 (410, 308, 207, 4, 300.00);
 
+
+-- Query 1
 SELECT * FROM customer;
 
+-- Query 2
 select name, city , email from customer;
 
+-- Query 3
 select * from product
 where price > 1000;
 
+-- Query 4
 select productname, price from product
 where price between 500 and 20000;
 
+-- Query 5
 select * from customer
 where city in ("bhopal", "delhi", "indore");
 
+-- Query 6
 select * from product
 where productname like "%o%";
 
+-- Query 7
 select * from product
 where productname like "p%";
 
+-- Query 8
 select * from product
 order by price desc;
 
+-- Query 9
 select * from product
 order by price desc limit 3;
 
+-- Query 10
 select count(*) from customer;
 
+-- Query 12
 select avg(price) from product;
 
+-- Query 13
 select max(price) from product;
 
+-- Query 14
 select min(price) from product;
 
+-- Query 15
 select sum(price) from product;
 
+-- Query 16
 select city, count(city) from customer
 group by city;
 
+-- Query 17
 select status , count(status) from orders
 group by status;
 
+-- Query 18
 select sum(totalamount) from orders;
 
+-- Query 19
 select name from customer
 inner join orders
 on customer.customerid = orders.customerid;
 
+-- Query 20
 select name, orderid, status from customer
 inner join orders
 on customer.customerid = orders.customerid;
 
+-- Query 21
 select productname, categoryname, price from product
 inner join category
 on category.categoryid = product.categoryid;
 
+-- Query 22
 select orders.orderid, productname, quantity, product.price from orders
 inner join order_items
 on orders.orderid = order_items.orderid
 inner join product
 on order_items.productid = product.productid;
 
+-- Query 23
 select name, orderid, totalamount from customer
 inner join orders
 on customer.customerid = orders.customerid;
 
+-- Query 24
 select productname , sum(quantity) from product
 inner join order_items
 on product.productid = order_items.productid
 group by product.productid;
 
+-- Query 25
 select categoryname, count(productid) from category
 inner join product
 on category.categoryid = product.categoryid
 group by category.categoryid;
 
-select * from category
-inner join product
-on category.categoryid = product.categoryid
-where stock > 1;
+-- Query 26
+SELECT categoryname, COUNT(productid)
+FROM category
+INNER JOIN product
+ON category.categoryid = product.categoryid
+GROUP BY category.categoryid
+HAVING COUNT(productid) > 1;
 
+-- Query 27
+select name , count(orderid) from customer
+inner join orders
+on customer.customerid = orders.customerid
+group by customer.customerid; 
 
+-- Query 28
+select name, sum(totalamount) from customer
+inner join orders
+on customer.customerid = orders.customerid
+group by customer.customerid;
+
+-- Query 29
+select productname, sum(quantity * order_items.price) as totalsales
+from product
+inner join order_items
+on product.productid = order_items.productid
+group by product.productid;
+
+-- Query 30
+select orders.orderid , sum(quantity*price) as totalcalculatedamt
+from orders
+inner join order_items
+on orders.orderid = order_items.orderid
+group by orders.orderid;
+
+-- Query 31
+SELECT name, status
+FROM customer
+INNER JOIN orders
+ON customer.customerid = orders.customerid
+WHERE orders.status = 'Delivered';
+
+-- Query 32
+select name, orderid from customer
+inner join orders
+on customer.customerid = orders.customerid
+group by customer.name;
+
+-- Query 33
+select name, orderid from customer
+left join orders
+on customer.customerid = orders.customerid
+where orders.orderid is null;
+ 
+ -- Query 34
+ select product.productid, productname from product
+ left join order_items
+ on product.productid = order_items.productid
+ where order_items.productid is null;
+
+-- Query 35 
+select name, SUM(totalamount) from customer
+inner join orders
+on customer.customerid = orders.customerid
+group by customer.customerid
+having sum(totalamount) > 50000;
+
+-- Query 36
+select productname, stock from product
+where stock < 15;
+
+-- Query 37
+select orderid, orderdate from orders
+where orderdate> '2026-09-05';
+
+-- Query 38
+select name, orderid, orderdate from customer
+inner join orders
+on customer.customerid = orders.customerid
+where orderdate > '2026-09-05';
+
+-- Query 39
+select name, orderid, status, totalamount from customer
+inner join orders
+on customer.customerid = orders.customerid
+where totalamount > 10000;
+
+-- Query 40
+select orderid, orderdate, customer.customerid, totalamount, status from customer
+inner join orders
+on customer.customerid = orders.customerid
+where status = "pending";
+
+-- Query 41
+select productid, price from product where price > (select avg(price) from product);
+
+-- Query 42
+select productname, price from product where price = (select max(price) from product);
+
+-- Query 43
+select name from customer where customerid in( select customerid from orders);
 
 
 
